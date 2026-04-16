@@ -246,6 +246,11 @@
             <span>Whatsapp</span>
             <i class="fa-brands fa-whatsapp"></i>
         </a>
+        
+        <button onclick="showManual()" class="btn">
+            <span>Manual Book</span>
+            <i class="fas fa-book"></i>
+        </button>
 
         <footer>&copy; 2026 Masa Muda Projects</footer>
     </div>
@@ -289,6 +294,20 @@
             <i class="fab fa-tiktok"></i>
         </a>
     </div>
+    
+    <div id="manual-view" class="view hidden">
+        <div class="app-header">
+            <button onclick="showHome()" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h2 style="font-family: var(--font-serif);">Manual Book</h2>
+        </div>
+
+        <a href="https://sites.google.com/view/masa-muda-juken-logger-manual" class="btn" target="_blank">
+            <span>Juken Data Logger</span>
+            <i class="fas fa-book-open"></i>
+        </a>
+    </div>
 
 </div>
 
@@ -296,6 +315,7 @@
     function showApps() {
         document.getElementById('home-view').classList.add('hidden');
         document.getElementById('marketplace-view').classList.add('hidden'); // Ensure marketplace is hidden
+        document.getElementById('manual-view').classList.add('hidden');
         document.getElementById('apps-view').classList.remove('hidden');
         document.getElementById('apps-view').classList.add('fade-in');
     }
@@ -303,6 +323,7 @@
     function showMarketplace() {
         document.getElementById('home-view').classList.add('hidden');
         document.getElementById('apps-view').classList.add('hidden'); // Ensure apps is hidden
+        document.getElementById('manual-view').classList.add('hidden');
         document.getElementById('marketplace-view').classList.remove('hidden');
         document.getElementById('marketplace-view').classList.add('fade-in');
     }
@@ -310,8 +331,17 @@
     function showHome() {
         document.getElementById('apps-view').classList.add('hidden');
         document.getElementById('marketplace-view').classList.add('hidden'); // Hide marketplace
+        document.getElementById('manual-view').classList.add('hidden');
         document.getElementById('home-view').classList.remove('hidden');
         document.getElementById('home-view').classList.add('fade-in');
+    }
+    
+    function showManual() {
+        document.getElementById('home-view').classList.add('hidden');
+        document.getElementById('apps-view').classList.add('hidden');
+        document.getElementById('marketplace-view').classList.add('hidden');
+        document.getElementById('manual-view').classList.remove('hidden');
+        document.getElementById('manual-view').classList.add('fade-in');
     }
 </script>
 
