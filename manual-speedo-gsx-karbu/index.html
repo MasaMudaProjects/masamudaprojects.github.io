@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manual Masa Muda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f4ef; --surface:#ffffff; --ink:#16191f; --dim:#5a6270; --line:#d9d5cb;
+  --accent:#b4440b; --accent-ink:#ffffff; --ok:#1c6b3a; --okbg:#e3f1e7;
+  --warn:#8a5a00; --warnbg:#fbf0d3; --bad:#a3201a; --badbg:#fbe3e0;
+}
+:root:not([data-theme="light"]){}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#101215; --surface:#181b20; --ink:#eceef1; --dim:#9aa3b0; --line:#2b3038;
+    --accent:#ff8a4c; --accent-ink:#1a0d04; --ok:#5fd286; --okbg:#12261a;
+    --warn:#f2c14e; --warnbg:#2a2110; --bad:#ff7a70; --badbg:#2d1513;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#101215; --surface:#181b20; --ink:#eceef1; --dim:#9aa3b0; --line:#2b3038;
+  --accent:#ff8a4c; --accent-ink:#1a0d04; --ok:#5fd286; --okbg:#12261a;
+  --warn:#f2c14e; --warnbg:#2a2110; --bad:#ff7a70; --badbg:#2d1513;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 'IBM Plex Sans',system-ui,sans-serif;-webkit-text-size-adjust:100%}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+header.top{border-bottom:1px solid var(--line);padding:40px 0 28px}
+.kicker{font:500 12px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+h1{font-size:clamp(28px,6vw,46px);line-height:1.1;margin:12px 0 10px;letter-spacing:-.02em}
+.lede{color:var(--dim);max-width:60ch;margin:0}
+.layout{display:block}
+nav.toc{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;padding:10px 0;-webkit-overflow-scrolling:touch}
+nav.toc a{display:inline-block;margin-right:6px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;color:var(--ink);text-decoration:none;font-size:13px;background:var(--surface)}
+nav.toc a:hover,nav.toc a:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
+main{padding:8px 0 80px}
+section{padding-top:36px}
+h2{font-size:clamp(22px,4vw,30px);line-height:1.2;margin:0 0 6px;letter-spacing:-.01em}
+h2 .n{display:inline-block;font:500 13px/1 'IBM Plex Mono',monospace;color:var(--accent);margin-right:10px;vertical-align:middle}
+h3{font-size:18px;margin:28px 0 8px}
+p{margin:10px 0}
+ul,ol{padding-left:22px;margin:10px 0}
+li{margin:5px 0}
+.box{border-left:4px solid var(--line);background:var(--surface);padding:12px 16px;border-radius:0 8px 8px 0;margin:16px 0}
+.box b.t{display:block;font:500 12px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+.box.danger{border-color:var(--bad);background:var(--badbg)} .box.danger b.t{color:var(--bad)}
+.box.warn{border-color:var(--warn);background:var(--warnbg)} .box.warn b.t{color:var(--warn)}
+.box.ok{border-color:var(--ok);background:var(--okbg)} .box.ok b.t{color:var(--ok)}
+.tblwrap{overflow-x:auto;margin:14px 0;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:500 12px/1.2 'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);background:color-mix(in srgb,var(--surface) 80%,var(--line))}
+tr:last-child td{border-bottom:0}
+code,.mono{font-family:'IBM Plex Mono',monospace;font-size:.92em}
+figure{margin:18px 0}
+figcaption{font-size:13px;color:var(--dim);margin-top:8px}
+svg.screen{width:100%;height:auto;max-width:520px;display:block;border-radius:8px;border:1px solid var(--line)}
+svg.conn{width:100%;height:auto;max-width:300px;display:block}
+.pair{display:grid;gap:16px;grid-template-columns:1fr}
+@media(min-width:720px){.pair{grid-template-columns:1fr 1fr}}
+.conns{display:grid;gap:20px;grid-template-columns:1fr}
+@media(min-width:720px){.conns{grid-template-columns:repeat(3,1fr)}}
+.pill{display:inline-block;padding:1px 9px;border-radius:999px;font-size:12px;font-weight:700;border:1px solid currentColor}
+.pill.g{color:var(--ok)} .pill.r{color:var(--bad)} .pill.y{color:var(--warn)}
+.steps{counter-reset:s;list-style:none;padding:0}
+.steps li{counter-increment:s;position:relative;padding-left:40px;margin:12px 0}
+.steps li::before{content:counter(s);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font:700 14px/28px 'IBM Plex Sans',sans-serif;text-align:center}
+footer{border-top:1px solid var(--line);padding:24px 0 48px;color:var(--dim);font-size:13px}
+@media print{
+  nav.toc{display:none} body{background:#fff;color:#000} section{break-inside:avoid-page}
+  .box,.tblwrap,figure{break-inside:avoid}
+  :root{--bg:#fff;--surface:#fff;--ink:#000;--dim:#333;--line:#999}
+}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="kicker">Buku Petunjuk Pengguna · Versi 1</div>
+  <h1>Masa Muda Custom Speedo GSX Karbu V1</h1>
+  <p class="lede">Panduan pemasangan dan penggunaan panel instrumen digital untuk sepeda motor berkarburator. Buku ini ditujukan bagi pengendara dan teknisi pemasang.</p>
+</div></header>
+
+<nav class="toc" aria-label="Daftar isi"><div class="wrap">
+  <a href="#baca">1 Baca Dahulu</a><a href="#kenal">2 Pengenalan</a><a href="#pasang">3 Pemasangan</a><a href="#nyala">4 Pertama Kali</a><a href="#layar">5 Membaca Layar</a><a href="#lampu">6 Lampu</a><a href="#menu">7 Pengaturan</a><a href="#masalah">8 Masalah</a><a href="#update">9 Pembaruan &amp; Data</a>
+</div></nav>
+
+<main class="wrap">
+
+<section id="baca">
+<h2><span class="n">01</span>Baca Dahulu: Keselamatan</h2>
+<p>Bagian ini wajib dibaca oleh pemasang sebelum menyambungkan kabel apa pun ke panel instrumen.</p>
+<div class="box danger"><b class="t">Bahaya: batas tegangan 3,3 V</b>
+Masukan sensor gigi (1–6), netral, dan oli samping bekerja pada logika <b>3,3 V</b>. Masukan ini hanya boleh menerima sinyal <b>trigger ground</b>, yaitu sensor yang menghubungkan kabel ke massa (GND) saat aktif. <b>Jangan pernah</b> memberi tegangan 12 V atau tegangan apa pun di atas 3,3 V pada kabel gigi, netral, oli, RPM, maupun bensin. Kesalahan ini dapat merusak panel secara permanen.</div>
+<ul>
+<li>Ukur setiap kabel sensor dengan multimeter <b>sebelum</b> dipasang ke konektor. Kabel yang menunjukkan tegangan positif terhadap GND tidak boleh disambungkan.</li>
+<li>Lepaskan kabel negatif aki sebelum memasang atau melepas konektor.</li>
+<li>Hanya kabel Kunci Kontak, Sein Kiri, Sein Kanan, dan Hi-Beam yang terhubung ke jalur 12 V, dan hanya pada konektor merah 6 pin.</li>
+<li>Jangan memberi tegangan pada konektor hitam 9 pin maupun hitam 6 pin selain sinyal sensor yang dijelaskan di Bab 3.</li>
+<li>Jangan mengubah sambungan saat mesin menyala.</li>
+</ul>
+</section>
+
+<section id="kenal">
+<h2><span class="n">02</span>Pengenalan dan Spesifikasi</h2>
+<p>Masa Muda Custom Speedo GSX Karbu V1 adalah panel instrumen layar warna 480 × 320 piksel. Panel menampilkan kecepatan dari GPS, putaran mesin (RPM), posisi gigi, level bensin, tegangan aki, status oli, serta jam. Tiga lampu indikator terpisah dan satu lampu shift melengkapi layar.</p>
+<div class="tblwrap"><table>
+<tr><th>Item</th><th>Keterangan</th></tr>
+<tr><td>Layar</td><td>480 × 320 piksel, warna</td></tr>
+<tr><td>Kecepatan</td><td>GPS (modul u-blox generasi 10), pembaruan 10 kali per detik</td></tr>
+<tr><td>RPM</td><td>Sinyal pickup VR melalui komparator; batas atas skala dapat diatur</td></tr>
+<tr><td>Gigi</td><td>N, 1–6, melalui sensor trigger ground</td></tr>
+<tr><td>Bensin</td><td>Sensor pelampung 0–90 Ω</td></tr>
+<tr><td>Tegangan aki</td><td>Pembagi tegangan; tampil dalam volt, dua desimal</td></tr>
+<tr><td>Tombol</td><td>Dua tombol (PAGE dan ADJUST)</td></tr>
+<tr><td>Lampu</td><td>Shift, Oli, Netral, dan Engine Check (status GPS)</td></tr>
+<tr><td>Tema</td><td>Terang atau gelap</td></tr>
+<tr><td>Pembaruan</td><td>Melalui Wi-Fi (mode OTA)</td></tr>
+</table></div>
+</section>
+
+<section id="pasang">
+<h2><span class="n">03</span>Pemasangan (untuk Teknisi)</h2>
+<h3>3.1 Tiga konektor</h3>
+<p>Panel memakai tiga konektor. Gambar di bawah dilihat dari <b>sisi dalam</b> konektor (sisi yang menghadap pin), dengan takik (notch) berada di atas.</p>
+<div class="conns">
+<figure><svg class="conn" viewBox="0 0 250 230" role="img" aria-label="Konektor hitam 9 pin untuk gigi" font-family="'IBM Plex Sans', system-ui, sans-serif"><rect x="4" y="14" width="242" height="212" rx="10" fill="#1d2026"/><rect x="109.0" y="2" width="32" height="18" rx="4" fill="#1d2026"/><rect x="117.0" y="6" width="16" height="10" rx="2" fill="var(--bg)"/><rect x="22" y="36" width="62" height="50" rx="7" fill="#f3f5f7"/><text x="53.0" y="67.0" font-size="20" font-weight="700" text-anchor="middle" fill="#14181f">3</text><rect x="94" y="36" width="62" height="50" rx="7" fill="#f3f5f7"/><text x="125.0" y="67.0" font-size="20" font-weight="700" text-anchor="middle" fill="#14181f">2</text><rect x="166" y="36" width="62" height="50" rx="7" fill="#f3f5f7"/><text x="197.0" y="67.0" font-size="20" font-weight="700" text-anchor="middle" fill="#14181f">1</text><rect x="22" y="96" width="62" height="50" rx="7" fill="#f3f5f7"/><text x="53.0" y="127.0" font-size="20" font-weight="700" text-anchor="middle" fill="#14181f">6</text><rect x="94" y="96" width="62" height="50" rx="7" fill="#f3f5f7"/><text x="125.0" y="127.0" font-size="20" font-weight="700" text-anchor="middle" fill="#14181f">5</text><rect x="166" y="96" width="62" height="50" rx="7" fill="#f3f5f7"/><text x="197.0" y="127.0" font-size="20" font-weight="700" text-anchor="middle" fill="#14181f">4</text><rect x="22" y="156" width="62" height="50" rx="7" fill="#f3f5f7"/><text x="53.0" y="187.0" font-size="20" font-weight="700" text-anchor="middle" fill="#14181f">N</text><rect x="94" y="156" width="62" height="50" rx="7" fill="none" stroke="#ffffff55" stroke-dasharray="4 3"/><text x="125.0" y="185.0" font-size="11" text-anchor="middle" fill="#ffffff88">kosong</text><rect x="166" y="156" width="62" height="50" rx="7" fill="none" stroke="#ffffff55" stroke-dasharray="4 3"/><text x="197.0" y="185.0" font-size="11" text-anchor="middle" fill="#ffffff88">kosong</text></svg><figcaption><b>Hitam 9 pin: Gigi.</b> Angka 1–6 adalah gigi 1 sampai 6, N adalah netral. Dua posisi bawah kosong.</figcaption></figure>
+<figure><svg class="conn" viewBox="0 0 280 170" role="img" aria-label="Konektor hitam 6 pin untuk RPM, oli dan bensin" font-family="'IBM Plex Sans', system-ui, sans-serif"><rect x="4" y="14" width="272" height="152" rx="10" fill="#1d2026"/><rect x="124.0" y="2" width="32" height="18" rx="4" fill="#1d2026"/><rect x="132.0" y="6" width="16" height="10" rx="2" fill="var(--bg)"/><rect x="22" y="36" width="72" height="50" rx="7" fill="#f3f5f7"/><text x="58.0" y="67.0" font-size="14" font-weight="700" text-anchor="middle" fill="#14181f">RPM</text><rect x="104" y="36" width="72" height="50" rx="7" fill="#f3f5f7"/><text x="140.0" y="67.0" font-size="14" font-weight="700" text-anchor="middle" fill="#14181f">Oli</text><rect x="186" y="36" width="72" height="50" rx="7" fill="#f3f5f7"/><text x="222.0" y="67.0" font-size="14" font-weight="700" text-anchor="middle" fill="#14181f">Bensin</text><rect x="22" y="96" width="72" height="50" rx="7" fill="none" stroke="#ffffff55" stroke-dasharray="4 3"/><text x="58.0" y="125.0" font-size="11" text-anchor="middle" fill="#ffffff88">kosong</text><rect x="104" y="96" width="72" height="50" rx="7" fill="none" stroke="#ffffff55" stroke-dasharray="4 3"/><text x="140.0" y="125.0" font-size="11" text-anchor="middle" fill="#ffffff88">kosong</text><rect x="186" y="96" width="72" height="50" rx="7" fill="none" stroke="#ffffff55" stroke-dasharray="4 3"/><text x="222.0" y="125.0" font-size="11" text-anchor="middle" fill="#ffffff88">kosong</text></svg><figcaption><b>Hitam 6 pin: Sensor.</b> RPM, Oli, Bensin. Baris bawah kosong.</figcaption></figure>
+<figure><svg class="conn" viewBox="0 0 280 170" role="img" aria-label="Konektor merah 6 pin untuk 12 V, sein dan hi-beam" font-family="'IBM Plex Sans', system-ui, sans-serif"><rect x="4" y="14" width="272" height="152" rx="10" fill="#b3261e"/><rect x="124.0" y="2" width="32" height="18" rx="4" fill="#b3261e"/><rect x="132.0" y="6" width="16" height="10" rx="2" fill="var(--bg)"/><rect x="22" y="36" width="72" height="50" rx="7" fill="#f3f5f7"/><text x="58.0" y="59.0" font-size="13" font-weight="700" text-anchor="middle" fill="#14181f">+12V</text><text x="58.0" y="74.0" font-size="11" text-anchor="middle" fill="#3b4350">Kunci</text><rect x="104" y="36" width="72" height="50" rx="7" fill="#f3f5f7"/><text x="140.0" y="67.0" font-size="14" font-weight="700" text-anchor="middle" fill="#14181f">GND</text><rect x="186" y="36" width="72" height="50" rx="7" fill="none" stroke="#ffffff55" stroke-dasharray="4 3"/><text x="222.0" y="65.0" font-size="11" text-anchor="middle" fill="#ffffff88">kosong</text><rect x="22" y="96" width="72" height="50" rx="7" fill="#f3f5f7"/><text x="58.0" y="119.0" font-size="13" font-weight="700" text-anchor="middle" fill="#14181f">Sein</text><text x="58.0" y="134.0" font-size="11" text-anchor="middle" fill="#3b4350">Kiri</text><rect x="104" y="96" width="72" height="50" rx="7" fill="#f3f5f7"/><text x="140.0" y="119.0" font-size="13" font-weight="700" text-anchor="middle" fill="#14181f">Sein</text><text x="140.0" y="134.0" font-size="11" text-anchor="middle" fill="#3b4350">Kanan</text><rect x="186" y="96" width="72" height="50" rx="7" fill="#f3f5f7"/><text x="222.0" y="127.0" font-size="14" font-weight="700" text-anchor="middle" fill="#14181f">Hi-Beam</text></svg><figcaption><b>Merah 6 pin: 12 V.</b> Atas: Kunci (+12 V), GND. Bawah: Sein Kiri, Sein Kanan, Hi-Beam.</figcaption></figure>
+</div>
+
+<h3>3.2 Tabel sambungan per sensor</h3>
+<div class="tblwrap"><table>
+<tr><th>Konektor / posisi</th><th>Fungsi</th><th>Jenis sinyal</th><th>Tegangan di kabel</th></tr>
+<tr><td>Hitam 9 pin: 1–6</td><td>Gigi 1–6</td><td>Trigger ground</td><td><span class="pill r">Maks 3,3 V</span></td></tr>
+<tr><td>Hitam 9 pin: N</td><td>Netral</td><td>Trigger ground</td><td><span class="pill r">Maks 3,3 V</span></td></tr>
+<tr><td>Hitam 6 pin: RPM</td><td>Pickup VR / sinyal koil</td><td>Pulsa AC kecil dari pickup</td><td>Hanya sambungan pickup (lihat 3.5)</td></tr>
+<tr><td>Hitam 6 pin: Oli</td><td>Saklar level oli samping (oli 2-tak)</td><td>Trigger ground (tersambung massa = oli rendah)</td><td><span class="pill r">Maks 3,3 V</span></td></tr>
+<tr><td>Hitam 6 pin: Bensin</td><td>Pelampung 0–90 Ω</td><td>Resistansi ke massa</td><td>Tidak boleh diberi tegangan</td></tr>
+<tr><td>Merah 6 pin: Kunci</td><td>Daya panel</td><td>+12 V setelah kunci kontak</td><td>12 V</td></tr>
+<tr><td>Merah 6 pin: GND</td><td>Massa</td><td>Negatif aki</td><td>0 V</td></tr>
+<tr><td>Merah 6 pin: Sein Kiri / Kanan</td><td>Indikator sein</td><td>+12 V saat sein menyala</td><td>12 V</td></tr>
+<tr><td>Merah 6 pin: Hi-Beam</td><td>Indikator lampu jauh</td><td>+12 V saat lampu jauh menyala</td><td>12 V</td></tr>
+</table></div>
+
+<h3>3.3 Sensor gigi dan netral</h3>
+<p>Setiap sensor gigi harus menghubungkan kabelnya ke massa saat gigi tersebut aktif. Konektor 9 pin <b>tidak memiliki pin GND</b>; massa sensor diambil dari rangka atau mesin sepeda motor, sebagaimana lazimnya saklar gigi dan netral.</p>
+<div class="box danger"><b class="t">Larangan</b>Jangan menyambungkan kabel gigi atau netral ke jalur 12 V, ke lampu netral bawaan yang bertegangan, atau ke keluaran modul lain yang bertegangan lebih dari 3,3 V. Jika sepeda motor Anda memiliki sensor bertegangan, pasang rangkaian penyesuai tersendiri sebelum ke panel.</div>
+
+<h3>3.4 Sensor oli samping</h3>
+<p>Sensor ini memantau level oli 2-tak pada tangki oli samping (reservoir). Saat level rendah, sensor menghubungkan kabel ke massa dan panel menampilkan peringatan setelah kondisi tertahan sekitar 0,2 detik, agar tidak berkedip karena guncangan cairan. Berlaku batas 3,3 V yang sama.</p>
+
+<h3>3.5 RPM</h3>
+<p>Sambungkan pickup VR atau sinyal RPM sesuai rangkaian komparator yang terpasang pada panel. Pada sepeda motor yang sinyal pickup-nya sempat bergetar (ringing), panel memakai penyaring pulsa otomatis. Jika RPM terbaca ganda di atas 3.000 RPM, lihat Bab 8.</p>
+
+<h3>3.6 Sensor bensin</h3>
+<p>Pelampung bensin 0–90 Ω disambungkan antara kabel Bensin dan massa. Setelah terpasang, lakukan kalibrasi Kosong dan Penuh (Bab 7).</p>
+
+<h3>3.7 Daya, sein, dan hi-beam</h3>
+<p>Kabel Kunci harus mendapat +12 V hanya saat kunci kontak ON. Kabel Sein dan Hi-Beam mengambil +12 V dari lampu masing-masing.</p>
+
+<h3>3.8 Daftar periksa sebelum menyalakan</h3>
+<ul>
+<li>Semua kabel sensor gigi, netral, dan oli diukur: tidak ada tegangan positif terhadap GND.</li>
+<li>Konektor terpasang pada posisi yang benar (hitam 9 pin, hitam 6 pin, merah 6 pin tidak tertukar).</li>
+<li>GND merah tersambung ke negatif aki.</li>
+<li>Kabel Kunci hanya aktif saat kontak ON.</li>
+</ul>
+</section>
+
+<section id="nyala">
+<h2><span class="n">04</span>Menyalakan Pertama Kali</h2>
+<ol class="steps">
+<li>Putar kunci kontak ke ON. Layar menampilkan logo pembuka.</li>
+<li>Seluruh lampu indikator menyala sekitar dua detik sebagai uji lampu.</li>
+<li>Halaman utama muncul. Kecepatan menampilkan <code>N/A</code> sampai GPS terhubung.</li>
+<li>Lampu Engine Check berkedip selama GPS mencari satelit. Biasanya diperlukan beberapa menit di tempat terbuka pada pemakaian pertama.</li>
+<li>Setelah GPS terkunci, lampu Engine Check padam dan kecepatan tampil.</li>
+</ol>
+</section>
+
+<section id="layar">
+<h2><span class="n">05</span>Membaca Layar</h2>
+<p>Tekan tombol <b>PAGE</b> sekali untuk berpindah halaman. Terdapat empat halaman.</p>
+
+<h3>5.1 Halaman utama</h3>
+<figure><svg class="screen" viewBox="0 0 480 320" role="img" aria-label="Halaman utama: bar RPM, kecepatan GPS, gigi, bensin, voltase dan oli" font-family="'IBM Plex Sans', system-ui, sans-serif"><rect width="480" height="320" rx="6" fill="#0b0d10"/><rect x="20" y="108" width="4" height="28" rx="1" fill="#28ff5a"/><rect x="20" y="138" width="1" height="2" fill="#2c333d"/><rect x="22" y="106" width="4" height="28" rx="1" fill="#2afe59"/><rect x="22" y="136" width="1" height="2" fill="#2c333d"/><rect x="25" y="103" width="4" height="28" rx="1" fill="#2cfd58"/><rect x="25" y="133" width="1" height="2" fill="#2c333d"/><rect x="28" y="100" width="4" height="29" rx="1" fill="#2efd57"/><rect x="28" y="131" width="1" height="2" fill="#2c333d"/><rect x="31" y="97" width="4" height="29" rx="1" fill="#30fc56"/><rect x="31" y="128" width="1" height="2" fill="#2c333d"/><rect x="33" y="94" width="4" height="30" rx="1" fill="#33fc55"/><rect x="33" y="126" width="1" height="2" fill="#2c333d"/><rect x="36" y="92" width="4" height="30" rx="1" fill="#35fb54"/><rect x="36" y="124" width="1" height="2" fill="#2c333d"/><rect x="39" y="89" width="4" height="31" rx="1" fill="#37fa53"/><rect x="39" y="122" width="1" height="2" fill="#2c333d"/><rect x="42" y="86" width="4" height="31" rx="1" fill="#39fa52"/><rect x="42" y="119" width="1" height="2" fill="#2c333d"/><rect x="44" y="83" width="4" height="32" rx="1" fill="#3cf951"/><rect x="44" y="117" width="1" height="2" fill="#2c333d"/><rect x="47" y="80" width="4" height="32" rx="1" fill="#3ef950"/><rect x="47" y="114" width="1" height="2" fill="#2c333d"/><rect x="50" y="78" width="4" height="33" rx="1" fill="#40f84f"/><rect x="50" y="113" width="1" height="2" fill="#2c333d"/><rect x="53" y="75" width="4" height="33" rx="1" fill="#42f84e"/><rect x="53" y="110" width="1" height="2" fill="#2c333d"/><rect x="55" y="72" width="4" height="34" rx="1" fill="#45f74d"/><rect x="55" y="108" width="1" height="2" fill="#2c333d"/><rect x="58" y="70" width="4" height="34" rx="1" fill="#47f64c"/><rect x="58" y="106" width="1" height="2" fill="#2c333d"/><rect x="61" y="67" width="4" height="34" rx="1" fill="#49f64b"/><rect x="61" y="103" width="1" height="2" fill="#2c333d"/><rect x="64" y="65" width="4" height="35" rx="1" fill="#4bf54b"/><rect x="64" y="102" width="1" height="2" fill="#2c333d"/><rect x="67" y="62" width="4" height="35" rx="1" fill="#4ef54a"/><rect x="67" y="99" width="1" height="2" fill="#2c333d"/><rect x="69" y="60" width="4" height="36" rx="1" fill="#50f449"/><rect x="69" y="98" width="1" height="2" fill="#2c333d"/><rect x="72" y="57" width="4" height="36" rx="1" fill="#52f448"/><rect x="72" y="95" width="1" height="2" fill="#2c333d"/><rect x="75" y="55" width="4" height="36" rx="1" fill="#54f347"/><rect x="75" y="93" width="1" height="2" fill="#2c333d"/><rect x="78" y="53" width="4" height="37" rx="1" fill="#57f246"/><rect x="78" y="92" width="1" height="2" fill="#2c333d"/><rect x="80" y="50" width="4" height="37" rx="1" fill="#59f245"/><rect x="80" y="89" width="1" height="2" fill="#2c333d"/><rect x="83" y="48" width="4" height="38" rx="1" fill="#5bf144"/><rect x="83" y="88" width="1" height="2" fill="#2c333d"/><rect x="86" y="46" width="4" height="38" rx="1" fill="#5df143"/><rect x="86" y="86" width="1" height="2" fill="#2c333d"/><rect x="89" y="44" width="4" height="38" rx="1" fill="#5ff042"/><rect x="89" y="84" width="1" height="2" fill="#2c333d"/><rect x="91" y="42" width="4" height="39" rx="1" fill="#62f041"/><rect x="91" y="83" width="1" height="2" fill="#2c333d"/><rect x="94" y="40" width="4" height="39" rx="1" fill="#64ef40"/><rect x="94" y="81" width="1" height="2" fill="#2c333d"/><rect x="97" y="38" width="4" height="39" rx="1" fill="#66ee3f"/><rect x="97" y="79" width="1" height="2" fill="#2c333d"/><rect x="100" y="36" width="4" height="40" rx="1" fill="#68ee3e"/><rect x="100" y="78" width="1" height="2" fill="#2c333d"/><rect x="103" y="34" width="4" height="40" rx="1" fill="#6bed3d"/><rect x="103" y="76" width="1" height="2" fill="#2c333d"/><rect x="105" y="32" width="4" height="40" rx="1" fill="#6ded3c"/><rect x="105" y="74" width="1" height="2" fill="#2c333d"/><rect x="108" y="31" width="4" height="40" rx="1" fill="#6fec3c"/><rect x="108" y="73" width="1" height="2" fill="#2c333d"/><rect x="111" y="29" width="4" height="41" rx="1" fill="#71ec3b"/><rect x="111" y="72" width="1" height="2" fill="#2c333d"/><rect x="114" y="27" width="4" height="41" rx="1" fill="#74eb3a"/><rect x="114" y="70" width="1" height="2" fill="#2c333d"/><rect x="116" y="26" width="4" height="41" rx="1" fill="#76ea39"/><rect x="116" y="69" width="1" height="2" fill="#2c333d"/><rect x="119" y="24" width="4" height="42" rx="1" fill="#78ea38"/><rect x="119" y="68" width="1" height="2" fill="#2c333d"/><rect x="122" y="23" width="4" height="42" rx="1" fill="#7ae937"/><rect x="122" y="67" width="1" height="2" fill="#2c333d"/><rect x="125" y="22" width="4" height="42" rx="1" fill="#7de936"/><rect x="125" y="66" width="1" height="2" fill="#2c333d"/><rect x="127" y="21" width="4" height="42" rx="1" fill="#7fe835"/><rect x="127" y="65" width="1" height="2" fill="#2c333d"/><rect x="130" y="20" width="4" height="42" rx="1" fill="#81e834"/><rect x="130" y="64" width="1" height="2" fill="#2c333d"/><rect x="133" y="19" width="4" height="42" rx="1" fill="#83e733"/><rect x="133" y="63" width="1" height="2" fill="#2c333d"/><rect x="136" y="18" width="4" height="43" rx="1" fill="#86e632"/><rect x="136" y="63" width="1" height="2" fill="#2c333d"/><rect x="138" y="17" width="4" height="43" rx="1" fill="#88e631"/><rect x="138" y="62" width="1" height="2" fill="#2c333d"/><rect x="141" y="16" width="4" height="43" rx="1" fill="#8ae530"/><rect x="141" y="61" width="1" height="2" fill="#2c333d"/><rect x="144" y="15" width="4" height="43" rx="1" fill="#8ce52f"/><rect x="144" y="60" width="1" height="2" fill="#2c333d"/><rect x="147" y="15" width="4" height="43" rx="1" fill="#8fe42e"/><rect x="147" y="60" width="1" height="2" fill="#2c333d"/><rect x="150" y="14" width="4" height="43" rx="1" fill="#91e42d"/><rect x="150" y="59" width="1" height="2" fill="#2c333d"/><rect x="152" y="14" width="4" height="43" rx="1" fill="#93e32d"/><rect x="152" y="59" width="1" height="2" fill="#2c333d"/><rect x="155" y="13" width="4" height="43" rx="1" fill="#95e22c"/><rect x="155" y="58" width="1" height="2" fill="#2c333d"/><rect x="158" y="13" width="4" height="43" rx="1" fill="#97e22b"/><rect x="158" y="58" width="1" height="2" fill="#2c333d"/><rect x="161" y="13" width="4" height="43" rx="1" fill="#9ae12a"/><rect x="161" y="58" width="1" height="2" fill="#2c333d"/><rect x="163" y="13" width="4" height="43" rx="1" fill="#9ce129"/><rect x="163" y="58" width="1" height="2" fill="#2c333d"/><rect x="166" y="12" width="4" height="44" rx="1" fill="#9ee028"/><rect x="166" y="58" width="1" height="2" fill="#2c333d"/><rect x="169" y="12" width="4" height="44" rx="1" fill="#a0e027"/><rect x="169" y="58" width="1" height="2" fill="#2c333d"/><rect x="172" y="12" width="4" height="44" rx="1" fill="#a3df26"/><rect x="172" y="58" width="1" height="2" fill="#2c333d"/><rect x="174" y="12" width="4" height="44" rx="1" fill="#a5de25"/><rect x="174" y="58" width="1" height="2" fill="#2c333d"/><rect x="177" y="12" width="4" height="44" rx="1" fill="#a7de24"/><rect x="177" y="58" width="1" height="2" fill="#2c333d"/><rect x="180" y="12" width="4" height="44" rx="1" fill="#a9dd23"/><rect x="180" y="58" width="1" height="2" fill="#2c333d"/><rect x="183" y="12" width="4" height="44" rx="1" fill="#acdd22"/><rect x="183" y="58" width="1" height="2" fill="#2c333d"/><rect x="186" y="12" width="4" height="44" rx="1" fill="#aedc21"/><rect x="186" y="58" width="1" height="2" fill="#2c333d"/><rect x="188" y="12" width="4" height="44" rx="1" fill="#b0dc20"/><rect x="188" y="58" width="1" height="2" fill="#2c333d"/><rect x="191" y="12" width="4" height="44" rx="1" fill="#b2db1f"/><rect x="191" y="58" width="1" height="2" fill="#2c333d"/><rect x="194" y="12" width="4" height="44" rx="1" fill="#b5da1e"/><rect x="194" y="58" width="1" height="2" fill="#2c333d"/><rect x="197" y="12" width="4" height="44" rx="1" fill="#b7da1e"/><rect x="197" y="58" width="1" height="2" fill="#2c333d"/><rect x="199" y="12" width="4" height="44" rx="1" fill="#b9d91d"/><rect x="199" y="58" width="1" height="2" fill="#2c333d"/><rect x="202" y="12" width="4" height="44" rx="1" fill="#bbd91c"/><rect x="202" y="58" width="1" height="2" fill="#2c333d"/><rect x="205" y="12" width="4" height="44" rx="1" fill="#bed81b"/><rect x="205" y="58" width="1" height="2" fill="#2c333d"/><rect x="208" y="12" width="4" height="44" rx="1" fill="#c0d81a"/><rect x="208" y="58" width="1" height="2" fill="#2c333d"/><rect x="210" y="12" width="4" height="44" rx="1" fill="#c2d719"/><rect x="210" y="58" width="1" height="2" fill="#2c333d"/><rect x="213" y="12" width="4" height="44" rx="1" fill="#c4d618"/><rect x="213" y="58" width="1" height="2" fill="#2c333d"/><rect x="216" y="12" width="4" height="44" rx="1" fill="#c6d617"/><rect x="216" y="58" width="1" height="2" fill="#2c333d"/><rect x="219" y="12" width="4" height="44" rx="1" fill="#c9d516"/><rect x="219" y="58" width="1" height="2" fill="#2c333d"/><rect x="222" y="12" width="4" height="44" rx="1" fill="#cbd515"/><rect x="222" y="58" width="1" height="2" fill="#2c333d"/><rect x="224" y="12" width="4" height="44" rx="1" fill="#cdd414"/><rect x="224" y="58" width="1" height="2" fill="#2c333d"/><rect x="227" y="12" width="4" height="44" rx="1" fill="#cfd413"/><rect x="227" y="58" width="1" height="2" fill="#2c333d"/><rect x="230" y="12" width="4" height="44" rx="1" fill="#d2d312"/><rect x="230" y="58" width="1" height="2" fill="#2c333d"/><rect x="233" y="12" width="4" height="44" rx="1" fill="#d4d211"/><rect x="233" y="58" width="1" height="2" fill="#2c333d"/><rect x="235" y="12" width="4" height="44" rx="1" fill="#d6d210"/><rect x="235" y="58" width="1" height="2" fill="#2c333d"/><rect x="238" y="12" width="4" height="44" rx="1" fill="#d8d10f"/><rect x="238" y="58" width="1" height="2" fill="#2c333d"/><rect x="241" y="58" width="1" height="2" fill="#2c333d"/><rect x="244" y="58" width="1" height="2" fill="#2c333d"/><rect x="246" y="58" width="1" height="2" fill="#2c333d"/><rect x="249" y="58" width="1" height="2" fill="#2c333d"/><rect x="252" y="58" width="1" height="2" fill="#2c333d"/><rect x="255" y="58" width="1" height="2" fill="#2c333d"/><rect x="257" y="58" width="1" height="2" fill="#2c333d"/><rect x="260" y="58" width="1" height="2" fill="#2c333d"/><rect x="263" y="58" width="1" height="2" fill="#2c333d"/><rect x="266" y="58" width="1" height="2" fill="#2c333d"/><rect x="269" y="58" width="1" height="2" fill="#2c333d"/><rect x="271" y="58" width="1" height="2" fill="#2c333d"/><rect x="274" y="58" width="1" height="2" fill="#2c333d"/><rect x="277" y="58" width="1" height="2" fill="#2c333d"/><rect x="280" y="58" width="1" height="2" fill="#2c333d"/><rect x="282" y="58" width="1" height="2" fill="#2c333d"/><rect x="285" y="58" width="1" height="2" fill="#2c333d"/><rect x="288" y="58" width="1" height="2" fill="#2c333d"/><rect x="291" y="58" width="1" height="2" fill="#2c333d"/><rect x="293" y="58" width="1" height="2" fill="#2c333d"/><rect x="296" y="58" width="1" height="2" fill="#2c333d"/><rect x="299" y="58" width="1" height="2" fill="#2c333d"/><rect x="302" y="58" width="1" height="2" fill="#2c333d"/><rect x="305" y="58" width="1" height="2" fill="#2c333d"/><rect x="307" y="58" width="1" height="2" fill="#2c333d"/><rect x="310" y="58" width="1" height="2" fill="#2c333d"/><rect x="313" y="58" width="1" height="2" fill="#2c333d"/><rect x="316" y="58" width="1" height="2" fill="#2c333d"/><rect x="318" y="58" width="1" height="2" fill="#2c333d"/><rect x="321" y="58" width="1" height="2" fill="#2c333d"/><rect x="324" y="58" width="1" height="2" fill="#2c333d"/><rect x="327" y="58" width="1" height="2" fill="#2c333d"/><rect x="329" y="58" width="1" height="2" fill="#2c333d"/><rect x="332" y="58" width="1" height="2" fill="#2c333d"/><rect x="335" y="58" width="1" height="2" fill="#2c333d"/><rect x="338" y="58" width="1" height="2" fill="#2c333d"/><rect x="341" y="58" width="1" height="2" fill="#2c333d"/><rect x="343" y="58" width="1" height="2" fill="#2c333d"/><rect x="346" y="58" width="1" height="2" fill="#2c333d"/><rect x="349" y="58" width="1" height="2" fill="#2c333d"/><rect x="352" y="58" width="1" height="2" fill="#2c333d"/><rect x="354" y="58" width="1" height="2" fill="#2c333d"/><rect x="357" y="58" width="1" height="2" fill="#2c333d"/><rect x="360" y="58" width="1" height="2" fill="#2c333d"/><rect x="363" y="58" width="1" height="2" fill="#2c333d"/><rect x="365" y="58" width="1" height="2" fill="#2c333d"/><rect x="368" y="58" width="1" height="2" fill="#2c333d"/><rect x="371" y="58" width="1" height="2" fill="#2c333d"/><rect x="374" y="58" width="1" height="2" fill="#2c333d"/><rect x="376" y="58" width="1" height="2" fill="#2c333d"/><rect x="379" y="58" width="1" height="2" fill="#2c333d"/><rect x="382" y="58" width="1" height="2" fill="#2c333d"/><rect x="385" y="58" width="1" height="2" fill="#2c333d"/><rect x="388" y="58" width="1" height="2" fill="#2c333d"/><rect x="390" y="58" width="1" height="2" fill="#2c333d"/><rect x="393" y="58" width="1" height="2" fill="#2c333d"/><rect x="396" y="58" width="1" height="2" fill="#2c333d"/><rect x="399" y="58" width="1" height="2" fill="#2c333d"/><rect x="401" y="58" width="1" height="2" fill="#2c333d"/><rect x="404" y="58" width="1" height="2" fill="#2c333d"/><rect x="407" y="58" width="1" height="2" fill="#2c333d"/><rect x="410" y="58" width="1" height="2" fill="#2c333d"/><rect x="412" y="58" width="1" height="2" fill="#2c333d"/><rect x="415" y="58" width="1" height="2" fill="#2c333d"/><rect x="418" y="58" width="1" height="2" fill="#2c333d"/><rect x="421" y="58" width="1" height="2" fill="#2c333d"/><rect x="424" y="58" width="1" height="2" fill="#2c333d"/><rect x="426" y="58" width="1" height="2" fill="#2c333d"/><rect x="429" y="58" width="1" height="2" fill="#2c333d"/><rect x="432" y="58" width="1" height="2" fill="#2c333d"/><rect x="435" y="58" width="1" height="2" fill="#2c333d"/><rect x="437" y="58" width="1" height="2" fill="#2c333d"/><rect x="440" y="58" width="1" height="2" fill="#2c333d"/><rect x="443" y="58" width="1" height="2" fill="#2c333d"/><rect x="446" y="58" width="1" height="2" fill="#2c333d"/><rect x="448" y="58" width="1" height="2" fill="#2c333d"/><rect x="451" y="58" width="1" height="2" fill="#2c333d"/><rect x="454" y="58" width="1" height="2" fill="#2c333d"/><rect x="457" y="58" width="1" height="2" fill="#2c333d"/><rect x="460" y="58" width="1" height="2" fill="#2c333d"/><text x="53" y="131" font-size="12" font-weight="700" text-anchor="middle" fill="#f3f5f7">1</text><text x="85" y="106" font-size="12" font-weight="700" text-anchor="middle" fill="#f3f5f7">2</text><text x="116" y="88" font-size="12" font-weight="700" text-anchor="middle" fill="#f3f5f7">3</text><text x="148" y="78" font-size="12" font-weight="700" text-anchor="middle" fill="#f3f5f7">4</text><text x="180" y="76" font-size="12" font-weight="700" text-anchor="middle" fill="#f3f5f7">5</text><text x="211" y="76" font-size="12" font-weight="700" text-anchor="middle" fill="#f3f5f7">6</text><text x="243" y="76" font-size="12" font-weight="700" text-anchor="middle" fill="#f3f5f7">7</text><text x="275" y="76" font-size="12" font-weight="700" text-anchor="middle" fill="#f3f5f7">8</text><text x="306" y="76" font-size="12" font-weight="700" text-anchor="middle" fill="#f3f5f7">9</text><text x="338" y="76" font-size="12" font-weight="700" text-anchor="middle" fill="#f3f5f7">10</text><text x="369" y="76" font-size="12" font-weight="700" text-anchor="middle" fill="#f3f5f7">11</text><text x="401" y="76" font-size="12" font-weight="700" text-anchor="middle" fill="#f3f5f7">12</text><text x="433" y="76" font-size="12" font-weight="700" text-anchor="middle" fill="#ff4a3a">13</text><text x="462" y="128" font-size="12" font-weight="700" text-anchor="middle" fill="#ff4a3a">14</text><text x="462" y="136" font-size="10.5" text-anchor="end" fill="#f3f5f7">RPM x1000</text><text x="140" y="228" font-size="84" font-weight="700" text-anchor="middle" fill="#f3f5f7">45</text><text x="140" y="262" font-size="16" text-anchor="middle" fill="#8a94a3">km/h</text><rect x="270" y="150" width="96" height="64" rx="10" fill="#1a1f26" stroke="#2c333d"/><text x="278" y="170" font-size="12" fill="#8a94a3">GEAR</text><text x="278" y="206" font-size="32" font-weight="700" fill="#f3f5f7">3</text><rect x="376" y="150" width="96" height="64" rx="10" fill="#1a1f26" stroke="#2c333d"/><text x="384" y="170" font-size="12" fill="#8a94a3">FUEL %</text><text x="384" y="206" font-size="32" font-weight="700" fill="#f3f5f7">62</text><rect x="270" y="224" width="96" height="64" rx="10" fill="#1a1f26" stroke="#2c333d"/><text x="278" y="244" font-size="12" fill="#8a94a3">BATT</text><text x="278" y="280" font-size="32" font-weight="700" fill="#f3f5f7">13.85</text><rect x="376" y="224" width="96" height="64" rx="10" fill="#1a1f26" stroke="#2c333d"/><text x="384" y="244" font-size="12" fill="#8a94a3">OIL</text><text x="384" y="280" font-size="32" font-weight="700" fill="#28ff5a">OK</text><rect x="16" y="290" width="4" height="4" fill="#28ff5a"/><rect x="22" y="285" width="4" height="9" fill="#28ff5a"/><rect x="28" y="280" width="4" height="14" fill="#28ff5a"/><text x="44" y="310" font-size="13" fill="#f3f5f7">9 SAT  LOCKED</text><text x="464" y="310" font-size="13" text-anchor="end" fill="#f3f5f7">13:45</text></svg><figcaption>Halaman utama (contoh tampilan; nilai bersifat ilustrasi).</figcaption></figure>
+<div class="tblwrap"><table>
+<tr><th>Elemen</th><th>Arti</th></tr>
+<tr><td>Bar melengkung</td><td>Putaran mesin. Angka di bawah bar menunjukkan kelipatan 1.000 RPM. Warna berubah dari hijau, kuning, hingga merah.</td></tr>
+<tr><td>Angka besar</td><td>Kecepatan dalam km/jam dari GPS. Tampil <code>N/A</code> bila GPS belum terhubung.</td></tr>
+<tr><td>GEAR</td><td>Posisi gigi: N atau 1–6.</td></tr>
+<tr><td>FUEL %</td><td>Sisa bensin. Kuning mendekati batas peringatan, merah di bawah atau sama dengan batas (dapat diatur).</td></tr>
+<tr><td>BATT</td><td>Tegangan aki. Merah bila di bawah 12,0 V atau di atas 14,9 V.</td></tr>
+<tr><td>OIL</td><td><code>OK</code> hijau, atau <code>LOW</code> merah bila level oli 2-tak rendah.</td></tr>
+<tr><td>Baris bawah</td><td>Jumlah satelit, status GPS (<code>LOCKED</code> atau <code>SEARCHING</code>), dan jam.</td></tr>
+</table></div>
+
+<h3>5.2 Halaman diagnostik</h3>
+<div class="pair">
+<figure><svg class="screen" viewBox="0 0 480 320" role="img" aria-label="Halaman diagnostik: delapan kartu data sensor" font-family="'IBM Plex Sans', system-ui, sans-serif"><rect width="480" height="320" rx="6" fill="#0b0d10"/><rect x="0" y="0" width="480" height="40" fill="#1a1f26"/><text x="14" y="26" font-size="16" font-weight="700" fill="#f3f5f7">DIAGNOSTICS</text><rect x="12" y="56" width="108" height="84" rx="8" fill="#1a1f26" stroke="#2c333d"/><text x="20" y="76" font-size="12" fill="#8a94a3">RPM</text><text x="20" y="120" font-size="28" font-weight="700" fill="#f3f5f7">3300<tspan font-size="12" font-weight="400" fill="#8a94a3"> </tspan></text><rect x="128" y="56" width="108" height="84" rx="8" fill="#1a1f26" stroke="#2c333d"/><text x="136" y="76" font-size="12" fill="#8a94a3">GEAR</text><text x="136" y="120" font-size="28" font-weight="700" fill="#f3f5f7">3<tspan font-size="12" font-weight="400" fill="#8a94a3"> </tspan></text><rect x="244" y="56" width="108" height="84" rx="8" fill="#1a1f26" stroke="#2c333d"/><text x="252" y="76" font-size="12" fill="#8a94a3">FUEL</text><text x="252" y="120" font-size="28" font-weight="700" fill="#f3f5f7">62<tspan font-size="12" font-weight="400" fill="#8a94a3"> %</tspan></text><rect x="360" y="56" width="108" height="84" rx="8" fill="#1a1f26" stroke="#2c333d"/><text x="368" y="76" font-size="12" fill="#8a94a3">FUEL R</text><text x="368" y="120" font-size="28" font-weight="700" fill="#f3f5f7">36<tspan font-size="12" font-weight="400" fill="#8a94a3"> ohm</tspan></text><rect x="12" y="148" width="108" height="84" rx="8" fill="#1a1f26" stroke="#2c333d"/><text x="20" y="168" font-size="12" fill="#8a94a3">BATT</text><text x="20" y="212" font-size="28" font-weight="700" fill="#f3f5f7">13.85<tspan font-size="12" font-weight="400" fill="#8a94a3"> V</tspan></text><rect x="128" y="148" width="108" height="84" rx="8" fill="#1a1f26" stroke="#2c333d"/><text x="136" y="168" font-size="12" fill="#8a94a3">OIL SW</text><text x="136" y="212" font-size="28" font-weight="700" fill="#f3f5f7">OK<tspan font-size="12" font-weight="400" fill="#8a94a3"> </tspan></text><rect x="244" y="148" width="108" height="84" rx="8" fill="#1a1f26" stroke="#2c333d"/><text x="252" y="168" font-size="12" fill="#8a94a3">TACH</text><text x="252" y="212" font-size="28" font-weight="700" fill="#f3f5f7">55<tspan font-size="12" font-weight="400" fill="#8a94a3"> Hz</tspan></text><rect x="360" y="148" width="108" height="84" rx="8" fill="#1a1f26" stroke="#2c333d"/><text x="368" y="168" font-size="12" fill="#8a94a3">PCF HEX</text><text x="368" y="212" font-size="28" font-weight="700" fill="#f3f5f7">FFFB<tspan font-size="12" font-weight="400" fill="#8a94a3"> </tspan></text><text x="12" y="254" font-size="12" fill="#8a94a3">Jumlah pulsa, kesalahan I2C, tegangan pin bensin dan penyebab reset ditampilkan di baris bawah.</text><text x="12" y="278" font-size="12" fill="#8a94a3">Halaman ini untuk pemasang saat menguji sensor.</text></svg><figcaption>Diagnostik: nilai mentah sensor. Terutama untuk teknisi.</figcaption></figure>
+<div><p>Menampilkan RPM, gigi, bensin (persen dan ohm), tegangan aki, status saklar oli, frekuensi sinyal RPM, dan status pembaca gigi. Gunakan halaman ini untuk memeriksa bahwa setiap sensor terbaca setelah pemasangan.</p></div>
+</div>
+
+<h3>5.3 Halaman data GPS</h3>
+<div class="pair">
+<figure><svg class="screen" viewBox="0 0 480 320" role="img" aria-label="Halaman data GPS: status, satelit, kecepatan dan posisi" font-family="'IBM Plex Sans', system-ui, sans-serif"><rect width="480" height="320" rx="6" fill="#0b0d10"/><rect x="0" y="0" width="480" height="40" fill="#1a1f26"/><text x="14" y="26" font-size="16" font-weight="700" fill="#f3f5f7">GPS DATA</text><text x="14" y="60" font-size="12" fill="#8a94a3">STATUS</text><text x="466" y="60" font-size="12" font-weight="700" text-anchor="end" fill="#f3f5f7">CONNECTED</text><text x="14" y="78" font-size="12" fill="#8a94a3">FIX</text><text x="466" y="78" font-size="12" font-weight="700" text-anchor="end" fill="#f3f5f7">LOCKED</text><text x="14" y="97" font-size="12" fill="#8a94a3">EVER FIXED</text><text x="466" y="97" font-size="12" font-weight="700" text-anchor="end" fill="#f3f5f7">YES</text><text x="14" y="116" font-size="12" fill="#8a94a3">SATELLITES</text><text x="466" y="116" font-size="12" font-weight="700" text-anchor="end" fill="#f3f5f7">9</text><text x="14" y="134" font-size="12" fill="#8a94a3">PEAK SAT</text><text x="466" y="134" font-size="12" font-weight="700" text-anchor="end" fill="#f3f5f7">12</text><text x="14" y="152" font-size="12" fill="#8a94a3">SIGNAL</text><text x="466" y="152" font-size="12" font-weight="700" text-anchor="end" fill="#f3f5f7">4/5</text><text x="14" y="171" font-size="12" fill="#8a94a3">SPEED</text><text x="466" y="171" font-size="12" font-weight="700" text-anchor="end" fill="#f3f5f7">45.0 km/h</text><text x="14" y="190" font-size="12" fill="#8a94a3">LATITUDE</text><text x="466" y="190" font-size="12" font-weight="700" text-anchor="end" fill="#f3f5f7">-6.200000</text><text x="14" y="208" font-size="12" fill="#8a94a3">LONGITUDE</text><text x="466" y="208" font-size="12" font-weight="700" text-anchor="end" fill="#f3f5f7">106.800000</text><text x="14" y="226" font-size="12" fill="#8a94a3">ALTITUDE</text><text x="466" y="226" font-size="12" font-weight="700" text-anchor="end" fill="#f3f5f7">720.0 m</text><text x="14" y="245" font-size="12" fill="#8a94a3">COURSE</text><text x="466" y="245" font-size="12" font-weight="700" text-anchor="end" fill="#f3f5f7">182.5 deg</text><text x="14" y="264" font-size="12" fill="#8a94a3">HDOP</text><text x="466" y="264" font-size="12" font-weight="700" text-anchor="end" fill="#f3f5f7">1.20</text><text x="14" y="282" font-size="12" fill="#8a94a3">CHARS RX</text><text x="466" y="282" font-size="12" font-weight="700" text-anchor="end" fill="#f3f5f7">48210</text><text x="14" y="300" font-size="12" fill="#8a94a3">FIXED SENT</text><text x="466" y="300" font-size="12" font-weight="700" text-anchor="end" fill="#f3f5f7">4310</text></svg><figcaption>Data GPS lengkap.</figcaption></figure>
+<div><p>Menampilkan status, kunci posisi (<code>LOCKED</code> atau <code>NO FIX</code>), jumlah satelit, kecepatan, koordinat, ketinggian, arah, dan data teknis komunikasi. Halaman ini dapat disembunyikan melalui menu pengaturan.</p></div>
+</div>
+
+<h3>5.4 Halaman sinyal GPS</h3>
+<div class="pair">
+<figure><svg class="screen" viewBox="0 0 480 320" role="img" aria-label="Halaman sinyal GPS: kekuatan tiap satelit" font-family="'IBM Plex Sans', system-ui, sans-serif"><rect width="480" height="320" rx="6" fill="#0b0d10"/><rect x="0" y="0" width="480" height="40" fill="#1a1f26"/><text x="14" y="26" font-size="16" font-weight="700" fill="#f3f5f7">GPS SIGNAL</text><text x="470" y="26" font-size="12" text-anchor="end" fill="#8a94a3">dB-Hz</text><line x1="30" y1="220" x2="466" y2="220" stroke="#2c333d"/><text x="26" y="224" font-size="10.5" text-anchor="end" fill="#8a94a3">10</text><line x1="30" y1="170" x2="466" y2="170" stroke="#2c333d"/><text x="26" y="174" font-size="10.5" text-anchor="end" fill="#8a94a3">20</text><line x1="30" y1="120" x2="466" y2="120" stroke="#2c333d"/><text x="26" y="124" font-size="10.5" text-anchor="end" fill="#8a94a3">30</text><line x1="30" y1="70" x2="466" y2="70" stroke="#2c333d"/><text x="26" y="74" font-size="10.5" text-anchor="end" fill="#8a94a3">40</text><rect x="48" y="100" width="30" height="170" rx="2" fill="#28ff5a"/><text x="63" y="288" font-size="12" text-anchor="middle" fill="#f3f5f7">02</text><rect x="100" y="115" width="30" height="155" rx="2" fill="#28ff5a"/><text x="115" y="288" font-size="12" text-anchor="middle" fill="#f3f5f7">03</text><rect x="152" y="80" width="30" height="190" rx="2" fill="#28ff5a"/><text x="167" y="288" font-size="12" text-anchor="middle" fill="#f3f5f7">08</text><rect x="204" y="125" width="30" height="145" rx="2" fill="#ffc800"/><text x="219" y="288" font-size="12" text-anchor="middle" fill="#f3f5f7">16</text><rect x="256" y="140" width="30" height="130" rx="2" fill="#ffc800"/><text x="271" y="288" font-size="12" text-anchor="middle" fill="#f3f5f7">27</text><rect x="308" y="160" width="30" height="110" rx="2" fill="#ffc800"/><text x="323" y="288" font-size="12" text-anchor="middle" fill="#f3f5f7">32</text><rect x="360" y="85" width="30" height="185" rx="2" fill="#28ff5a"/><text x="375" y="288" font-size="12" text-anchor="middle" fill="#f3f5f7">05</text><rect x="412" y="120" width="30" height="150" rx="2" fill="#28ff5a"/><text x="427" y="288" font-size="12" text-anchor="middle" fill="#f3f5f7">10</text></svg><figcaption>Kekuatan sinyal tiap satelit.</figcaption></figure>
+<div><p>Batang hijau menandakan sinyal kuat, kuning sinyal sedang.</p></div>
+</div>
+</section>
+
+<section id="lampu">
+<h2><span class="n">06</span>Lampu Indikator dan Peringatan</h2>
+<div class="tblwrap"><table>
+<tr><th>Lampu</th><th>Kondisi</th><th>Arti</th></tr>
+<tr><td>Shift</td><td>Menyala atau berkedip</td><td>RPM telah mencapai batas shift yang diatur. Mode dipilih di menu: Solid, Flash, atau Off.</td></tr>
+<tr><td>Oli</td><td>Menyala</td><td>Level oli samping (2-tak) rendah. Isi tangki oli samping sesegera mungkin.</td></tr>
+<tr><td>Netral</td><td>Menyala</td><td>Transmisi pada posisi netral.</td></tr>
+<tr><td>Engine Check (GPS)</td><td>Menyala terus</td><td>Modul GPS tidak terhubung.</td></tr>
+<tr><td>Engine Check (GPS)</td><td>Berkedip</td><td>GPS mencari satelit.</td></tr>
+<tr><td>Engine Check (GPS)</td><td>Padam</td><td>GPS terkunci; kondisi normal.</td></tr>
+</table></div>
+<div class="box warn"><b class="t">Perhatian</b>Lampu Engine Check pada panel ini menunjukkan <b>status GPS</b>, bukan kondisi mesin.</div>
+</section>
+
+<section id="menu">
+<h2><span class="n">07</span>Menu Pengaturan dan Kalibrasi</h2>
+<h3>7.1 Cara memakai tombol</h3>
+<div class="tblwrap"><table>
+<tr><th>Tombol</th><th>Di halaman biasa</th><th>Di dalam menu</th></tr>
+<tr><td>PAGE (tekan singkat)</td><td>Halaman berikutnya</td><td>Baris berikutnya</td></tr>
+<tr><td>PAGE (tahan sekitar 0,5 detik)</td><td>Membuka menu pengaturan</td><td>Kembali / keluar dari menu</td></tr>
+<tr><td>ADJUST (tekan singkat)</td><td>-</td><td>Menambah nilai, atau masuk ke menu kalibrasi</td></tr>
+<tr><td>ADJUST (tahan sekitar 0,5 detik)</td><td>-</td><td>Mengurangi nilai</td></tr>
+</table></div>
+
+<h3>7.2 Menu pengaturan</h3>
+<figure><svg class="screen" viewBox="0 0 480 320" role="img" aria-label="Menu pengaturan: enam baris" font-family="'IBM Plex Sans', system-ui, sans-serif"><rect width="480" height="320" rx="6" fill="#0b0d10"/><rect x="0" y="0" width="480" height="44" fill="#1a1f26"/><text x="20" y="29" font-size="17" font-weight="700" fill="#f3f5f7">SETTINGS</text><rect x="14" y="56" width="452" height="34" rx="6" fill="#1a1f26" stroke="#2c333d"/><text x="30" y="78" font-size="14" font-weight="700" fill="#f3f5f7">THEME</text><text x="450" y="78" font-size="14" font-weight="700" text-anchor="end" fill="#f3f5f7">LIGHT</text><rect x="14" y="98" width="452" height="34" rx="6" fill="#1a1f26" stroke="#2c333d"/><text x="30" y="120" font-size="14" font-weight="700" fill="#f3f5f7">SHIFT LIGHT</text><text x="450" y="120" font-size="14" font-weight="700" text-anchor="end" fill="#f3f5f7">SOLID</text><rect x="14" y="140" width="452" height="34" rx="6" fill="#0e7490" stroke="#2c333d"/><text x="30" y="162" font-size="14" font-weight="700" fill="#f3f5f7">SHIFT RPM</text><text x="450" y="162" font-size="14" font-weight="700" text-anchor="end" fill="#f3f5f7">11500</text><rect x="14" y="182" width="452" height="34" rx="6" fill="#1a1f26" stroke="#2c333d"/><text x="30" y="204" font-size="14" font-weight="700" fill="#f3f5f7">MAX RPM</text><text x="450" y="204" font-size="14" font-weight="700" text-anchor="end" fill="#f3f5f7">14000</text><rect x="14" y="224" width="452" height="34" rx="6" fill="#1a1f26" stroke="#2c333d"/><text x="30" y="246" font-size="14" font-weight="700" fill="#f3f5f7">GPS DATA PAGE</text><text x="450" y="246" font-size="14" font-weight="700" text-anchor="end" fill="#f3f5f7">SHOWN</text><rect x="14" y="266" width="452" height="34" rx="6" fill="#1a1f26" stroke="#2c333d"/><text x="30" y="288" font-size="14" font-weight="700" fill="#f3f5f7">CALIBRATION</text><text x="450" y="288" font-size="14" font-weight="700" text-anchor="end" fill="#f3f5f7">OPEN ></text></svg><figcaption>Menu pengaturan. Baris terpilih ditandai biru.</figcaption></figure>
+<div class="tblwrap"><table>
+<tr><th>Baris</th><th>Fungsi</th></tr>
+<tr><td>THEME</td><td>Tema terang atau gelap</td></tr>
+<tr><td>SHIFT LIGHT</td><td>Mode lampu shift: Solid, Flash, atau Off</td></tr>
+<tr><td>SHIFT RPM</td><td>RPM saat lampu shift menyala</td></tr>
+<tr><td>MAX RPM</td><td>Batas atas skala bar RPM</td></tr>
+<tr><td>GPS DATA PAGE</td><td>Menampilkan atau menyembunyikan halaman data GPS</td></tr>
+<tr><td>CALIBRATION</td><td>Masuk ke menu kalibrasi</td></tr>
+</table></div>
+
+<h3>7.3 Menu kalibrasi</h3>
+<figure><svg class="screen" viewBox="0 0 480 320" role="img" aria-label="Menu kalibrasi: tujuh baris" font-family="'IBM Plex Sans', system-ui, sans-serif"><rect width="480" height="320" rx="6" fill="#0b0d10"/><rect x="0" y="0" width="480" height="44" fill="#1a1f26"/><text x="20" y="29" font-size="17" font-weight="700" fill="#f3f5f7">CALIBRATION</text><text x="462" y="29" font-size="12" text-anchor="end" fill="#8a94a3">NOW: 36ohm  13.85V</text><rect x="14" y="52" width="452" height="30" rx="6" fill="#1a1f26" stroke="#2c333d"/><text x="30" y="72" font-size="13" font-weight="700" fill="#f3f5f7">TACH PULSES/REV</text><text x="450" y="72" font-size="13" font-weight="700" text-anchor="end" fill="#f3f5f7">1.0 PPR</text><rect x="14" y="86" width="452" height="30" rx="6" fill="#0e7490" stroke="#2c333d"/><text x="30" y="106" font-size="13" font-weight="700" fill="#f3f5f7">FUEL EMPTY (SET NOW)</text><text x="450" y="106" font-size="13" font-weight="700" text-anchor="end" fill="#f3f5f7">90 ohm</text><rect x="14" y="120" width="452" height="30" rx="6" fill="#1a1f26" stroke="#2c333d"/><text x="30" y="140" font-size="13" font-weight="700" fill="#f3f5f7">FUEL FULL (SET NOW)</text><text x="450" y="140" font-size="13" font-weight="700" text-anchor="end" fill="#f3f5f7">0 ohm</text><rect x="14" y="154" width="452" height="30" rx="6" fill="#1a1f26" stroke="#2c333d"/><text x="30" y="174" font-size="13" font-weight="700" fill="#f3f5f7">LOW FUEL WARN</text><text x="450" y="174" font-size="13" font-weight="700" text-anchor="end" fill="#f3f5f7">15 %</text><rect x="14" y="188" width="452" height="30" rx="6" fill="#1a1f26" stroke="#2c333d"/><text x="30" y="208" font-size="13" font-weight="700" fill="#f3f5f7">BATT VOLT TRIM</text><text x="450" y="208" font-size="13" font-weight="700" text-anchor="end" fill="#f3f5f7">0.00 V</text><rect x="14" y="222" width="452" height="30" rx="6" fill="#1a1f26" stroke="#2c333d"/><text x="30" y="242" font-size="13" font-weight="700" fill="#f3f5f7">CLOCK TIMEZONE</text><text x="450" y="242" font-size="13" font-weight="700" text-anchor="end" fill="#f3f5f7">UTC+7</text><rect x="14" y="256" width="452" height="30" rx="6" fill="#1a1f26" stroke="#2c333d"/><text x="30" y="276" font-size="13" font-weight="700" fill="#f3f5f7">< BACK</text><text x="450" y="276" font-size="13" font-weight="700" text-anchor="end" fill="#f3f5f7"></text><text x="240" y="306" font-size="11" text-anchor="middle" fill="#8a94a3">ADJUST: save current level as EMPTY   hold: reset</text></svg><figcaption>Menu kalibrasi. Bagian kanan atas menunjukkan hambatan bensin dan tegangan aki saat ini.</figcaption></figure>
+<div class="tblwrap"><table>
+<tr><th>Baris</th><th>Fungsi</th></tr>
+<tr><td>TACH PULSES/REV</td><td>Jumlah pulsa per putaran mesin. Sesuaikan bila RPM terbaca setengah atau dua kali lipat.</td></tr>
+<tr><td>FUEL EMPTY</td><td>Simpan nilai pelampung saat tangki kosong, dengan menekan ADJUST saat bensin benar-benar pada posisi kosong.</td></tr>
+<tr><td>FUEL FULL</td><td>Simpan nilai pelampung saat tangki penuh.</td></tr>
+<tr><td>LOW FUEL WARN</td><td>Batas persen bensin untuk peringatan merah (dapat diatur).</td></tr>
+<tr><td>BATT VOLT TRIM</td><td>Koreksi tegangan aki. Bandingkan dengan multimeter, lalu sesuaikan hingga sama.</td></tr>
+<tr><td>CLOCK TIMEZONE</td><td>Zona waktu jam. Atur ke zona Anda (misalnya UTC+7).</td></tr>
+<tr><td>&lt; BACK</td><td>Kembali ke menu pengaturan.</td></tr>
+</table></div>
+<div class="box ok"><b class="t">Penyimpanan</b>Semua pengaturan tersimpan otomatis dan tetap ada setelah daya dimatikan.</div>
+</section>
+
+<section id="masalah">
+<h2><span class="n">08</span>Pemecahan Masalah</h2>
+<div class="tblwrap"><table>
+<tr><th>Gejala</th><th>Kemungkinan penyebab</th><th>Tindakan</th></tr>
+<tr><td>Layar tidak menyala</td><td>Kabel Kunci atau GND merah tidak tersambung</td><td>Ukur +12 V pada pin Kunci saat kontak ON dan periksa GND.</td></tr>
+<tr><td>Kecepatan <code>N/A</code></td><td>GPS belum terkunci</td><td>Tunggu di tempat terbuka; lihat halaman data GPS.</td></tr>
+<tr><td>Lampu Engine Check menyala terus</td><td>Modul GPS tidak terhubung</td><td>Periksa kabel dan konektor modul GPS.</td></tr>
+<tr><td>RPM terbaca ganda di atas 3.000</td><td>Pulsa ganda dari pickup</td><td>Periksa sambungan pickup dan komparator; lihat nilai frekuensi di halaman diagnostik.</td></tr>
+<tr><td>RPM setengah atau dua kali lipat</td><td>Pulsa per putaran tidak sesuai</td><td>Ubah TACH PULSES/REV di menu kalibrasi.</td></tr>
+<tr><td>Gigi tidak terbaca atau salah</td><td>Sensor tidak ke massa atau kabel tertukar</td><td>Cek halaman diagnostik; ukur kabel saat gigi aktif harus mendekati 0 V.</td></tr>
+<tr><td>Indikator netral dan gigi tampil bersamaan</td><td>Dua kabel sensor bersentuhan</td><td>Periksa isolasi dan kabel pada konektor hitam 9 pin.</td></tr>
+<tr><td>Bensin tidak akurat</td><td>Belum dikalibrasi</td><td>Lakukan FUEL EMPTY dan FUEL FULL.</td></tr>
+<tr><td>Voltase aki berbeda dari multimeter</td><td>Perlu koreksi</td><td>Sesuaikan BATT VOLT TRIM.</td></tr>
+<tr><td>Peringatan oli muncul padahal tangki terisi</td><td>Sensor level kotor atau kabel sensor bermasalah</td><td>Periksa level oli samping, sensor, dan kabelnya.</td></tr>
+<tr><td>Panel mati atau mulai ulang tiba-tiba</td><td>Gangguan daya atau sambungan longgar</td><td>Periksa konektor merah dan tegangan aki.</td></tr>
+</table></div>
+<div class="box danger"><b class="t">Jika panel rusak setelah pemasangan</b>Periksa terlebih dahulu apakah ada kabel sensor yang menerima tegangan lebih dari 3,3 V (Bab 1).</div>
+</section>
+
+<section id="update">
+<h2><span class="n">09</span>Pembaruan Firmware dan Data Teknis</h2>
+<h3>9.1 Masuk ke layar OTA</h3>
+<ol class="steps">
+<li>Matikan kunci kontak.</li>
+<li>Tahan tombol <b>PAGE</b>, lalu putar kunci kontak ke ON sambil tombol tetap ditahan.</li>
+<li>Layar menampilkan <code>OTA UPDATE MODE</code>.</li>
+<li>Pada ponsel atau komputer, sambungkan ke Wi-Fi bernama <code>MasaMudaDisplay</code>.</li>
+<li>Buka alamat IP yang tertera di layar pada peramban (umumnya <code>192.168.4.1</code>), pilih berkas firmware berekstensi <code>.bin</code>, lalu tekan Flash Firmware.</li>
+</ol>
+<figure><svg class="screen" viewBox="0 0 480 320" role="img" aria-label="Layar mode pembaruan OTA" font-family="'IBM Plex Sans', system-ui, sans-serif"><rect width="480" height="320" rx="6" fill="#0b0d10"/><rect x="0" y="0" width="480" height="44" fill="#1d4ed8"/><text x="240" y="29" font-size="18" font-weight="700" text-anchor="middle" fill="#ffffff">OTA UPDATE MODE</text><text x="240" y="120" font-size="16" text-anchor="middle" fill="#f3f5f7">AP Mode: MasaMudaDisplay</text><text x="240" y="150" font-size="16" text-anchor="middle" fill="#f3f5f7">IP: 192.168.4.1</text></svg><figcaption>Layar mode OTA.</figcaption></figure>
+<p>Untuk keluar dari mode ini, matikan lalu nyalakan kembali kunci kontak.</p>
+
+<h3>9.2 Data teknis ringkas</h3>
+<div class="tblwrap"><table>
+<tr><th>Parameter</th><th>Nilai</th></tr>
+<tr><td>Logika masukan gigi, netral, oli samping</td><td>3,3 V, trigger ground</td></tr>
+<tr><td>Sensor bensin</td><td>0–90 Ω</td></tr>
+<tr><td>Tegangan aki yang dianggap normal</td><td>12,0–14,9 V</td></tr>
+<tr><td>Penahan peringatan oli samping</td><td>0,2 detik</td></tr>
+<tr><td>Penekanan tombol panjang</td><td>sekitar 0,5 detik</td></tr>
+<tr><td>Pembaruan GPS</td><td>10 Hz</td></tr>
+</table></div>
+</section>
+
+</main>
+<footer><div class="wrap">Masa Muda Custom Speedo GSX Karbu V1 · Buku Petunjuk Pengguna. Halaman ini dapat dicetak dari peramban; daftar isi disembunyikan pada hasil cetak.</div></footer>
+</body>
+</html>
